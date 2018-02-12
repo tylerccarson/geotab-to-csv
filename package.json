@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",
+    "express": "^4.16.2",
     "fs": "0.0.1-security",
     "json2csv": "^3.11.5",
     "mg-api-node": "^1.0.1",
