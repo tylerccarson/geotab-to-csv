@@ -12,6 +12,7 @@
     "axios": "^0.17.1",
     "fs": "0.0.1-security",
     "json2csv": "^3.11.5",
+    "mg-api-node": "^1.0.1",
     "webpack": "^3.10.0"
   }
 }
