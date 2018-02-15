@@ -49,7 +49,7 @@ oauth2Client.setCredentials({ refresh_token: refresh_token });
 oauth2Client.refreshAccessToken(function(err, tokens) {
   // your access_token is now refreshed and stored in oauth2Client
   // store these new tokens in a safe place (e.g. database)
-  
+
 /** EXECUTABLE CODE  *******/
 writeCSV();
 
@@ -133,7 +133,7 @@ function writeCSV() {
         devices = devices.map((device) => {
 
           let vehicleMilage = odmTable[device.id];
-          //let localDate = fromDate.toLocaleString
+          let localDate = fromDate.toLocaleString();
 
           // OBJECT VERSION FOR .CSV
           // return {
@@ -151,7 +151,7 @@ function writeCSV() {
             device.name,
             device.engineVehicleIdentificationNumber,
             /*** do we want to reformat date to something more readable? Also, currently returns UTC zone ***/
-            fromDate,
+            localDate,
             device.id,
             /**** Do we want to convert to miles, or leave in meters? Also,
                   Do we have any kind of confirmation these readings are changing? ***/
