@@ -49,10 +49,8 @@ oauth2Client.setCredentials({ refresh_token: refresh_token });
 oauth2Client.refreshAccessToken(function(err, tokens) {
   // your access_token is now refreshed and stored in oauth2Client
   // store these new tokens in a safe place (e.g. database)
-});
-
+  
 /** EXECUTABLE CODE  *******/
-
 writeCSV();
 
 //start interval to create a new .csv every 2 minutes
@@ -60,8 +58,22 @@ setInterval(writeCSV, 120000);
 
 /***************************/
 
+});
+
+
+
 
 function writeCSV() {
+
+  //if difference between expiry and current time is < 300000
+  if (oauth2Client.credentials.expiry_date - Date.now() < 300000) {
+    //refresh access token
+    oauth2Client.refreshAccessToken(function(err, tokens) {
+      //do something
+    });
+  }
+
+
   myGeotab.authenticate((err, user) => {
 
     if(err){
