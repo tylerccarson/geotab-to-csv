@@ -61,7 +61,7 @@ var oauth2Client = new OAuth2(
 /***************************************************************************************************/
 
 // Set refresh token and use to retrieve temporary access token:
-var refresh_token = credentials.refresh_token;
+var refresh_token = process.env.NODE_ENV === 'production' ? process.env.REFRESH_TOKEN : credentials.refresh_token;
 oauth2Client.setCredentials({ refresh_token: refresh_token });
 oauth2Client.refreshAccessToken(function(err, tokens) {
   // your access_token is now refreshed and stored in oauth2Client
