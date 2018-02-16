@@ -1,14 +1,31 @@
-var credentials = require('./credentials.js');
-var myGeotab = require('mg-api-node')(credentials.myGeotab.userName, credentials.myGeotab.password, credentials.myGeotab.database);
+let googleClientID, googleClientSecret, redirect_uri, geotabUserName, geotabPassword, geotabDatabase;
 
+if (process.env.NODE_ENV === 'production') {
+
+  googleClientID = process.env.GOOGLE_CLIENT_ID;
+  googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  redirect_uri = process.env.REDIRECT_URI;
+  geotabUserName = process.env.GEOTAB_USERNAME;
+  getabPassword = process.env.GEOTAB_PASSWORD;
+  geotabDatabase = process.env.GEOTAB_DATABASE;
+
+} else {
+
+  var credentials = require('./credentials.js');
+
+  googleClientID = credentials.google.client_id;
+  googleClientSecret = credentials.google.client_secret;
+  redirect_uri = credentials.google.redirect_uri;
+  geotabUserName = credentials.myGeotab.userName;
+  geotabPassword = credentials.myGeotab.password;
+  geotabDatabase = credentials.myGeotab.database;
+
+}
+
+var myGeotab = require('mg-api-node')(geotabUserName, geotabPassword, geotabDatabase);
 var {google} = require('googleapis');
 var sheets = google.sheets('v4');
 var OAuth2 = google.auth.OAuth2;
-
-var googleClientID = credentials.google.client_id;
-var googleClientSecret = credentials.google.client_secret;
-var redirect_uri = credentials.google.redirect_uri;
-
 var oauth2Client = new OAuth2(
   googleClientID,
   googleClientSecret,
@@ -62,7 +79,6 @@ setInterval(writeCSV, 120000);
 
 
 
-
 function writeCSV() {
 
   //if difference between expiry and current time is < 300000
@@ -70,6 +86,7 @@ function writeCSV() {
     //refresh access token
     oauth2Client.refreshAccessToken(function(err, tokens) {
       //do something
+      console.log('refereshing access token');
     });
   }
 

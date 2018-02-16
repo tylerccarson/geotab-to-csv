@@ -5,3 +5,13 @@ important resources:
 design thoughts:
 
   -how to make this more flexible for when we pass this off to a customer? They won't want to share their Geotab or Google credentials, so I need to build it with their perspective in mind. Would this work, though, for a refresh token? I think not, needs to be done by my account. So maybe not.
+
+so older vehicles don't
+
+To-dos:
+
+  -make sure to filter out inactive devices -- for example: TRUCK-SY (32000 miles), Durango, Paul's Test Unit
+  -get it hosted and automated
+
+-Bulk uploading fields??
+  -
