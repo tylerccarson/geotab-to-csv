@@ -1,4 +1,4 @@
-let googleClientID, googleClientSecret, redirect_uri, geotabUserName, geotabPassword, geotabDatabase;
+let googleClientID, googleClientSecret, redirect_uri, geotabUserName, geotabPassword, geotabDatabase, refresh_token;
 
 if (process.env.NODE_ENV === 'production') {
 
@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   geotabUserName = process.env.GEOTAB_USERNAME;
   geotabPassword = process.env.GEOTAB_PASSWORD;
   geotabDatabase = process.env.GEOTAB_DATABASE;
+  refresh_token = process.env.REFRESH_TOKEN;
 
 } else {
 
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV === 'production') {
   geotabUserName = credentials.myGeotab.userName;
   geotabPassword = credentials.myGeotab.password;
   geotabDatabase = credentials.myGeotab.database;
+  refresh_token = credentials.refresh_token;
 
 }
 
@@ -31,6 +33,7 @@ var oauth2Client = new OAuth2(
   googleClientSecret,
   redirect_uri
 );
+oauth2Client.setCredentials({ refresh_token: refresh_token });
 
 /**** for use when generating a new code: *********************************************************/
 
@@ -60,36 +63,13 @@ var oauth2Client = new OAuth2(
 
 /***************************************************************************************************/
 
-// Set refresh token and use to retrieve temporary access token:
-var refresh_token = process.env.NODE_ENV === 'production' ? process.env.REFRESH_TOKEN : credentials.refresh_token;
-oauth2Client.setCredentials({ refresh_token: refresh_token });
-oauth2Client.refreshAccessToken(function(err, tokens) {
-  // your access_token is now refreshed and stored in oauth2Client
-  // store these new tokens in a safe place (e.g. database)
-
 /** EXECUTABLE CODE  *******/
-writeCSV();
 
-//start interval to create a new .csv every 2 minutes
-setInterval(writeCSV, 120000);
+writeCSV();
 
 /***************************/
 
-});
-
-
-
 function writeCSV() {
-
-  //if difference between expiry and current time is < 300000
-  if (oauth2Client.credentials.expiry_date - Date.now() < 300000) {
-    //refresh access token
-    oauth2Client.refreshAccessToken(function(err, tokens) {
-      //do something
-      console.log('refereshing access token');
-    });
-  }
-
 
   myGeotab.authenticate((err, user) => {
 
@@ -177,35 +157,41 @@ function writeCSV() {
 
         });
 
-        var number = devices.length + 1;
-        var spreadsheetId = '1n2YPWcJNnLnEGw09SVY73vZj3fH8EbZuVhGaPRl0I8k';
-        var range = `Sheet1!A2:E${number}`;
-        var ValueRange = {
-          range: range,
-          majorDimension: 'ROWS',
-          values: devices
-        };
+        oauth2Client.refreshAccessToken(function(err, tokens) {
+          // your access_token is now refreshed and stored in oauth2Client
+          // store these new tokens in a safe place (e.g. database)
 
-        //for this version, I'll actually make an array of arrays instead to pass as values to Google
-        sheets.spreadsheets.values.update({
-          spreadsheetId: spreadsheetId,
-          range: range,
-          valueInputOption: 'USER_ENTERED',
-          resource: ValueRange,
-          auth: oauth2Client
+          var number = devices.length + 1;
+          var spreadsheetId = '1n2YPWcJNnLnEGw09SVY73vZj3fH8EbZuVhGaPRl0I8k';
+          var range = `Sheet1!A2:E${number}`;
+          var ValueRange = {
+            range: range,
+            majorDimension: 'ROWS',
+            values: devices
+          };
 
-        }, (err, response) => {
-          if (err) {
+          //for this version, I'll actually make an array of arrays instead to pass as values to Google
+          sheets.spreadsheets.values.update({
+            spreadsheetId: spreadsheetId,
+            range: range,
+            valueInputOption: 'USER_ENTERED',
+            resource: ValueRange,
+            auth: oauth2Client
 
-            // add in logic to refresh token if error has to do with expiration OR do so with every function call..
+          }, (err, response) => {
+            if (err) {
 
-            console.error(err);
-            return;
-          }
+              // add in logic to refresh token if error has to do with expiration OR do so with every function call..
 
-          console.log('spreadsheet updated');
+              console.error(err);
+              return;
+            }
 
-        });
+            console.log('spreadsheet updated');
+
+          }); //close sheets API update scope
+
+        }); //outside token refresh scope
 
         /*** KEEP IF WE SWITCH BACK TO .csv CONVERSION
 

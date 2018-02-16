@@ -1,1 +1,1 @@
-web: node writeCSV.js
+web: node index.js
