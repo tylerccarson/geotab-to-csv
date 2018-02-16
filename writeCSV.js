@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
   googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
   redirect_uri = process.env.REDIRECT_URI;
   geotabUserName = process.env.GEOTAB_USERNAME;
-  getabPassword = process.env.GEOTAB_PASSWORD;
+  geotabPassword = process.env.GEOTAB_PASSWORD;
   geotabDatabase = process.env.GEOTAB_DATABASE;
 
 } else {
