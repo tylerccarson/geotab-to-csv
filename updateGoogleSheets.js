@@ -1,14 +1,15 @@
-let googleClientID, googleClientSecret, redirect_uri, geotabUserName, geotabPassword, geotabDatabase, refresh_token;
+var googleClientID, googleClientSecret, redirect_uri, geotabUserName, geotabPassword, geotabDatabase, refresh_token;
 
 if (process.env.NODE_ENV === 'production') {
 
   googleClientID = process.env.GOOGLE_CLIENT_ID;
   googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
   redirect_uri = process.env.REDIRECT_URI;
+  refresh_token = process.env.REFRESH_TOKEN;
+
   geotabUserName = process.env.GEOTAB_USERNAME;
   geotabPassword = process.env.GEOTAB_PASSWORD;
   geotabDatabase = process.env.GEOTAB_DATABASE;
-  refresh_token = process.env.REFRESH_TOKEN;
 
 } else {
 
@@ -17,10 +18,11 @@ if (process.env.NODE_ENV === 'production') {
   googleClientID = credentials.google.client_id;
   googleClientSecret = credentials.google.client_secret;
   redirect_uri = credentials.google.redirect_uri;
+  refresh_token = credentials.google.refresh_token;
+
   geotabUserName = credentials.myGeotab.userName;
   geotabPassword = credentials.myGeotab.password;
   geotabDatabase = credentials.myGeotab.database;
-  refresh_token = credentials.refresh_token;
 
 }
 
@@ -47,29 +49,26 @@ oauth2Client.setCredentials({ refresh_token: refresh_token });
 
 /**************************************************************************************************/
 
-/* for use when generating a new access_token from code(and refresh token if first authorization) */
+/* for use when generating a new refresh token from code(only works if it is a first authorization) */
 
 // oauth2Client.getToken(code, function (err, tokens) {
-//   console.log('function called');
 //   // Now tokens contains an access_token and an optional refresh_token. Save them.
 //   if (err) {
 //     console.log(err);
 //     return;
 //   }
-//  
 //   console.log('tokens: ', tokens);
-//   oauth2Client.setCredentials(tokens);
 // });
 
 /***************************************************************************************************/
 
 /** EXECUTABLE CODE  *******/
 
-writeCSV();
+updateGoogleSheets();
 
 /***************************/
 
-function writeCSV() {
+function updateGoogleSheets() {
 
   myGeotab.authenticate((err, user) => {
 
@@ -78,7 +77,7 @@ function writeCSV() {
       return;
     }
 
-    //get all device data
+    //getDevices
     myGeotab.call('Get', {
       typeName: 'Device'
 
@@ -89,6 +88,7 @@ function writeCSV() {
         return;
       }
       
+      //getDeviceOdms
       var fromDate = new Date();
       var calls = [];
 
@@ -108,7 +108,6 @@ function writeCSV() {
         }]);      
       }
 
-      //execute multicall for status data
       myGeotab.multicall(calls, (err, statusData) => {
         if(err){
           console.log('Error', err);
@@ -126,37 +125,24 @@ function writeCSV() {
 
         }
 
-        //iterate devices again to reformate with requested fields
+        //populateOdmAndParseFields
         devices = devices.map((device) => {
 
           let vehicleMilage = odmTable[device.id];
           let localDate = fromDate.toLocaleString();
 
-          // OBJECT VERSION FOR .CSV
-          // return {
-          //   AssetName: device.name,
-          //   AssetNo: device.engineVehicleIdentificationNumber,
-          //   DateRead: fromDate,
-          //   //MeterTitleName: ,
-          //   // is this supposed to be device id? Or something else?
-          //   MeterTitleNo: device.id,
-          //   ValueRead: vehicleMilage
-          // }
-
           // ARRAY VERSION FOR GOOGLE SHEETS
           return [
             device.name,
             device.engineVehicleIdentificationNumber,
-            /*** do we want to reformat date to something more readable? Also, currently returns UTC zone ***/
             localDate,
             device.id,
-            /**** Do we want to convert to miles, or leave in meters? Also,
-                  Do we have any kind of confirmation these readings are changing? ***/
             vehicleMilage
           ]
 
         });
 
+        //updateGoogleSheetsData
         oauth2Client.refreshAccessToken(function(err, tokens) {
           // your access_token is now refreshed and stored in oauth2Client
           // store these new tokens in a safe place (e.g. database)
@@ -180,34 +166,15 @@ function writeCSV() {
 
           }, (err, response) => {
             if (err) {
-
-              // add in logic to refresh token if error has to do with expiration OR do so with every function call..
-
               console.error(err);
               return;
             }
 
-            console.log('spreadsheet updated');
+            console.log('google spreadsheet updated');
 
           }); //close sheets API update scope
 
         }); //outside token refresh scope
-
-        /*** KEEP IF WE SWITCH BACK TO .csv CONVERSION
-
-        //parse JSON into a csv file with json2csv
-        const csv = json2csv({data: devices});
-
-        // write to csv
-        fs.writeFile('geotabresults.csv', csv, (res, err) => {
-        if (err) {
-          console.log(err); 
-          return;
-        }
-
-        });
-
-        *****************/
 
       });//outside multicall scope
 

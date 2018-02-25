@@ -6,12 +6,8 @@ design thoughts:
 
   -how to make this more flexible for when we pass this off to a customer? They won't want to share their Geotab or Google credentials, so I need to build it with their perspective in mind. Would this work, though, for a refresh token? I think not, needs to be done by my account. So maybe not.
 
-so older vehicles don't
-
 To-dos:
 
   -make sure to filter out inactive devices -- for example: TRUCK-SY (32000 miles), Durango, Paul's Test Unit
-  -get it hosted and automated
-
--Bulk uploading fields??
-  -
+  -refactor to decouple the functions
+  -build with other users in mind... how to make the accounts involved more flexible? May need to build the logic to capture the refresh token automatically to manage the stream. This is a bigger task. However! Not necessary if we're cutting Google Sheets out of the picture. Then, they only need to log in with their myGeotab credentials, save those in the database (encrypted) so we can continually make those API calls on their behalf. If we stay delivering via .csv to GoogleDrive however, than we do need to handle the user accounts correctly.
