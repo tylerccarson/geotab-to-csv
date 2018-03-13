@@ -37,7 +37,7 @@ function writeCSV() {
   myGeotab.authenticate((err, user) => {
 
     if(err){
-      console.log('Error', err);
+      console.log('Error authenticating myGeotab ', err);
       return;
     }
 
@@ -48,7 +48,7 @@ function writeCSV() {
     }, (err, devices) => {
 
       if(err){
-        console.log('Error', err);
+        console.log('Error fetching devices from myGeotab ', err);
         return;
       }
       
@@ -74,7 +74,7 @@ function writeCSV() {
 
       myGeotab.multicall(calls, (err, statusData) => {
         if(err){
-          console.log('Error', err);
+          console.log('Error fetching statusData ', err);
           return;
         }
 
@@ -99,7 +99,7 @@ function writeCSV() {
           return {
             AssetName: device.name,
             AssetNo: device.engineVehicleIdentificationNumber,
-            DateRead: fromDate,
+            DateRead: localDate,
             MeterTitleNo: device.id,
             ValueRead: vehicleMilage
           }

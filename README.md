@@ -10,4 +10,4 @@ To-dos:
 
   -make sure to filter out inactive devices -- for example: TRUCK-SY (32000 miles), Durango, Paul's Test Unit
   -refactor to decouple the functions
-  -build with other users in mind... how to make the accounts involved more flexible? May need to build the logic to capture the refresh token automatically to manage the stream. This is a bigger task. However! Not necessary if we're cutting Google Sheets out of the picture. Then, they only need to log in with their myGeotab credentials, save those in the database (encrypted) so we can continually make those API calls on their behalf. If we stay delivering via .csv to GoogleDrive however, than we do need to handle the user accounts correctly.
+  -improve error handling (retry on fail)
