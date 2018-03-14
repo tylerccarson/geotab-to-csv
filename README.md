@@ -16,6 +16,7 @@ Walk through of the customer experience:
 
 Mirror in terms of engineering:
   1) Build an HTML form to capture user credentials, set desired interval (based on Heroku options), and submit to web server via POST request
-  2) Take this information and formulate into job, then add to the database
-  3) Register this job in Heroku
-  4) Dashboard also contains option to switch off or even delete a job
+
+Other option:
+  -Run all tasks at once-- so, the googleDriveUpload script will run for all DB's
+  -In this case, the form is only there to opt in or out of this service. Always runs on a 10 minute interval. Much easier.

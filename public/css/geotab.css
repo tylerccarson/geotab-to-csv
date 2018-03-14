@@ -301,7 +301,7 @@ p {
 }
 
 #signin-content {
-    display: none;
+    display: block;
 }
 
 #example-content {

@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 document.getElementById("signin-content").style.display = "none";
-                document.getElementById("example-content").style.display = "block";
+                document.getElementById("instructions").style.display = "block";
             });
 
             document.getElementById("signout").addEventListener("click", function (event) {
