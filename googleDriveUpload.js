@@ -165,6 +165,7 @@ function updateGoogleDrive() {
             });
 
             var folderId = '1qccbM8sK-m06yBYY0wU9I_MJrjYGVNLJ';
+            var fileId = '1f0E0C6dJfgY-LTqsPI7_rBhLanSpHdnX';
 
             var fileMetadata = {
               'name': 'geotabresult.csv',
@@ -176,22 +177,32 @@ function updateGoogleDrive() {
               body: fs.createReadStream('geotabresult.csv')
             };
 
-            //FUNCTIONALITY HERE: JUST NEED TO BUILD OUT THE LOGIC FOR UPDATE VS CREATE
+            drive.files.update({
+              fileId: fileId,
+              media: media
 
-            drive.files.create({
-              resource: fileMetadata,
-              media: media,
-              fields: 'id'
-
-            }, function (err, file) {
+            }, (err, file) => {
               if (err) {
-                  // Handle error
-                  console.error(err);
+                console.error(err);
               } else {
-                  console.log('File uploaded: ', file);
+                console.log('File updated: ', file.data);
               }
-
             });
+
+            // drive.files.create({
+            //   resource: fileMetadata,
+            //   media: media,
+            //   fields: 'id'
+
+            // }, function (err, file) {
+            //   if (err) {
+            //       // Handle error
+            //       console.error(err);
+            //   } else {
+            //       console.log('File uploaded: ', file);
+            //   }
+
+            // });
 
           });//refreshAccessToken
 
