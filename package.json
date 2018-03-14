@@ -18,5 +18,8 @@
     "json2csv": "^3.11.5",
     "mg-api-node": "^1.0.1",
     "webpack": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
   }
 }

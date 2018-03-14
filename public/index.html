@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8" />
+
+    <title>Geotab SDK | Bulk Upload Devices</title>
+
+    <link href="css/geotab.css" rel="stylesheet" type="text/css" />
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <nav>
+          <img src="http://www.geotab.com/webimages/header/geotablogo.png" alt="" />
+          <button id="help">Help</button>
+          <button id="signout">Sign out</button>
+        </nav>
+          <h1>Bulk Upload Devices</h1>
+          <h3>Add more details in your uploads</h3>
+      </div>
+    </header>
+
+    <div class="container bordered">
+
+      <div id="signin-content"></div>
+
+        <div id="instructions">
+          <p>Quickly import vehicles by pasting them in from Excel or CSV files.<br>
+          The serial number should come first, followed by a tab, comma, or space, and then the vehicle description.<br>Vehicles should be separated by a line break.<br>
+          <br>
+          Example: xx-xxx-xxxx-xxx Truck 123
+          Todo: add more instructions about what order to put fields in? or maybe design to choose fields
+          </p>
+        </div>
+
+        <div id="example-content">
+          <form>
+            <h3>Add driver data</h3>
+            <textarea id="driverData" rows="15"></textarea>
+            <button id="addDriver">Add driver</button>
+          </form>
+        </div>
+
+      </div>
+
+        <footer>
+          <div class="container footernotes">
+            <p>Source code provided as part of the <a href="https://helpdesk.geotab.com/forums" target="_blank">Geotab SDK</a>.</p>
+            <p>Last updated on 01/29/2018</p>
+          </div>
+        </footer>
+
+        <div id="help-content">
+          <h2>Help</h2>
+          <p>
+            <strong>Overview</strong><br />
+            This JavaScript example guides you through the process of creating drivers, which are special types of user accounts.
+          </p>
+          <p>
+            <strong>Work flow</strong><br />
+            We use some simple to understand client side validation on our form to ensure the entered values are correct. Then, an API
+            call is made to Geotab to create the driver. If it was successful, a message will notify you that the new driver is
+            ready to be used.
+          </p>
+          <p>
+            <strong>Skill level</strong><br />
+            Beginner
+          </p>
+        </div>
+
+        <script src="js/api.js"></script>
+        <script src="js/login.js"></script>
+
+    </body>
+
+</html>
