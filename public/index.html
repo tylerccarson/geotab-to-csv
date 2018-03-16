@@ -27,12 +27,25 @@
 
     <div class="container bordered">
 
+      <div id="instructions">
+        <p>1) Enter an email that has an associated Google account</p>
+        <p>2) It is VERY IMPORTANT that after opening the link send your your email, that you add the shared folder to your own drive</p>
+        <p>3) Download <a href="https://support.google.com/a/answer/2490101?hl=en">Google Drive Backup and Sync</a> (free service)</p>
+        <p>4) Open up Google Drive and you should be able to watch a .csv file of your fleet update on your machine every 10 minutes<p>
+      </div>
+
+    </div>
+    
+    <div class="container bordered">
+
       <div id="signin-content"></div>
 
       <div id="dashboard">
-        <div>Status</div>
-        <button>Request datafeed</button>
-        <button>Halt datafeed</button>
+        <form>
+          <label>Email:</label>
+          <input type="email" id="googleAccount"></input>
+        </form>
+        <button id="register">Request datafeed</button>
       </div>
 
     </div>
@@ -52,17 +65,22 @@
       </p>
       <p>
         <strong>Work flow</strong><br />
-        We use some simple to understand client side validation on our form to ensure the entered values are correct. Then, an API
-        call is made to Geotab to create the driver. If it was successful, a message will notify you that the new driver is
-        ready to be used.
+        To do: explain what this does
       </p>
       <p>
-        <strong>Skill level</strong><br />
-        Beginner
+        <strong>Contact</strong><br />
+        add my details for any questions or troubleshooting
       </p>
     </div>
 
-    <script src="js/login.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- for dev purposes only -->
+<!--     <script type="text/javascript">
+      document.getElementById("signin-content").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      document.getElementById("instructions").style.display = "block";
+    </script> -->
 
   </body>
 

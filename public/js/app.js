@@ -7,16 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
         var authenticationCallback = myGeotabAuthentication;
         var debug = {
             enabled: false,
-            server: "",
             database: "",
             email: "",
             password: ""
         };
 
-        function myGeotabAuthentication(server, database, email, password, callback) {
+        function myGeotabAuthentication(database, email, password, callback) {
             var http = new XMLHttpRequest();
             var url = "/auth/myGeotab";
-            var params = `server=${server}&database=${database}&email=${email}&password=${password}`;
+            var params = `database=${database}&email=${email}&password=${password}`;
             http.open("POST", url, true);
 
             http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -26,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(http.responseText)
                     document.getElementById("signin-content").style.display = "none";
                     document.getElementById("dashboard").style.display = "block";
+                    document.getElementById("instructions").style.display = "block";
 
                 } else if (http.readyState === 4 && http.status === 403) {
                     alert('Wrong credentials. Try again!');
@@ -41,8 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             document.getElementById("signin-content").style.display = "block";
             document.getElementById("dashboard").style.display = "none";
+            document.getElementById("instructions").style.display = "none";
 
-            //reset values to ""
+            //to-do: reset values to ""
         }
 
         function closeModal(id) {
@@ -102,25 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
             // Build sign in form
             var form = document.createElement("form"),
                 legend = document.createElement("legend"),
-                paragraph1 = document.createElement("p"),
                 paragraph2 = document.createElement("p"),
                 paragraph3 = document.createElement("p"),
                 paragraph4 = document.createElement("p"),
                 button = document.createElement("button")
 
             legend.innerHTML = "Sign in to continue";
-
-            // Build server field
-            paragraph1.appendChild(createLabel({
-                for: "server",
-                html: "Server name"
-            }));
-            paragraph1.appendChild(createInput({
-                id: "server",
-                type: "text",
-                placeholder: "Example: my.geotab.com",
-                value: (debug.enabled === true ? debug.server : undefined)
-            }));
 
             // Build database field
             paragraph2.appendChild(createLabel({
@@ -162,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function () {
             button.innerHTML = "Sign in";
 
             form.appendChild(legend);
-            form.appendChild(paragraph1);
             form.appendChild(paragraph2);
             form.appendChild(paragraph3);
             form.appendChild(paragraph4);
@@ -182,8 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("signin").addEventListener("click", function (event) {
                 event.preventDefault();
 
-                var server   = document.getElementById("server").value,
-                    database = document.getElementById("database").value,
+                var database = document.getElementById("database").value,
                     email    = document.getElementById("email").value,
                     password = document.getElementById("password").value;
 
@@ -191,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert("Please enter all required fields");
 
                 } else {
-                    authenticationCallback(server, database, email, password, function (error) {
+                    authenticationCallback(database, email, password, function (error) {
                         if (error) {
                             alert(error);
                             signOut();
@@ -209,6 +195,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.preventDefault();
                 showModal("help-content");
             });
+
+            document.getElementById("register").addEventListener("click", function submitEmail(event) {
+                event.preventDefault();
+
+                var email = document.getElementById("googleAccount").value;
+                var isEmail = email.indexOf('@') > -1;
+
+                if (isEmail) {
+
+                    var http = new XMLHttpRequest();
+                    var url = "/feed/subscribe";
+                    var params = `email=${email}`;
+                    http.open("POST", url, true);
+
+                    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                    http.onreadystatechange = function() {
+                        if(http.readyState == 4 && http.status == 200) {
+                            alert(http.responseText);
+                        } 
+                    }
+                    http.send(params);
+
+                } else {
+                    alert('Please enter a valid email address!');
+                }
+            })
         }
 
         return function () {
