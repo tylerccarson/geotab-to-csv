@@ -28,6 +28,14 @@ app.post('/auth/myGeotab', (req, res) => {
   });
 });
 
+app.get('/feed/status', (req, res) => {
+
+});
+
+app.post('/feed/subscribe')
+
+app.post('/feed/unsubscribe')
+
 app.listen(port, () => {
   console.log('Listening on port ' + port + '...');
 });

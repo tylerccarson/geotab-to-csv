@@ -4,7 +4,7 @@
 
     <meta charset="utf-8" />
 
-    <title>Geotab SDK | Bulk Upload Devices</title>
+    <title>Geotab SDK | Google Drive Integration</title>
 
     <link href="css/geotab.css" rel="stylesheet" type="text/css" />
     <link href="css/styles.css" rel="stylesheet" type="text/css" />
@@ -29,16 +29,11 @@
 
       <div id="signin-content"></div>
 
-      <div id="instructions">
-        <p>Quickly import vehicles by pasting them in from Excel or CSV files.<br>
-        The serial number should come first, followed by a tab, comma, or space, and then the vehicle description.<br>Vehicles should be separated by a line break.<br>
-        <br>
-        Example: xx-xxx-xxxx-xxx Truck 123
-        Todo: add more instructions about what order to put fields in? or maybe design to choose fields
-        </p>
+      <div id="dashboard">
+        <div>Status</div>
+        <button>Request datafeed</button>
+        <button>Halt datafeed</button>
       </div>
-
-      <div id="dashboard"></div>
 
     </div>
 
@@ -67,7 +62,6 @@
       </p>
     </div>
 
-    <script src="js/api.js"></script>
     <script src="js/login.js"></script>
 
   </body>

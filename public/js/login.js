@@ -1,5 +1,3 @@
-var api;
-
 document.addEventListener("DOMContentLoaded", function () {
 
     "use strict";
@@ -27,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if(http.readyState == 4 && http.status == 200) {
                     console.log(http.responseText)
                     document.getElementById("signin-content").style.display = "none";
-                    document.getElementById("instructions").style.display = "block";
+                    document.getElementById("dashboard").style.display = "block";
 
                 } else if (http.readyState === 4 && http.status === 403) {
                     alert('Wrong credentials. Try again!');
@@ -36,24 +34,15 @@ document.addEventListener("DOMContentLoaded", function () {
             http.send(params);
         }
 
-        // function initializeGeotabApi() {
-        //     api = GeotabApi(function (detailsCallback) {
-
-        //         document.getElementById("signin-content").style.display = "block";
-        //         document.getElementById("example-content").style.display = "none";
-        //     }, {
-        //         rememberMe: false,
-        //         jsonp: true
-        //     });
-        // }
-
         function signOut(reason) {
             if (reason !== undefined) {
                 alert(reason);
             }
 
             document.getElementById("signin-content").style.display = "block";
-            document.getElementById("instructions").style.display = "none";
+            document.getElementById("dashboard").style.display = "none";
+
+            //reset values to ""
         }
 
         function closeModal(id) {
@@ -198,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     email    = document.getElementById("email").value,
                     password = document.getElementById("password").value;
 
-                //enter client validation
                 if (database === "" || email === "" || password === "") {
                     alert("Please enter all required fields");
 
@@ -214,11 +202,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             document.getElementById("signout").addEventListener("click", function (event) {
                 event.preventDefault();
-
-                // if (api !== undefined) {
-                //     api.forget();
-                // }
-
                 signOut();
             });
 
@@ -230,7 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return function () {
             this.initialize = function () {
-                //initializeGeotabApi();
                 intializeInterface();
             }
         };

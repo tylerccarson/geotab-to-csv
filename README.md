@@ -20,3 +20,5 @@ Design:
   -Need to store credentials for each user, with a folderId (will this be nested? Each company needs their own), a fileId
   -The script will update all DB's every 10 minutes
   -Are there multiple logins per database?? If so, then which credentials to use for additional users, when only one needs to be used? I'll just share that same folder with the new user rather than having to generate a brand new file
+  -Need different names for the files based on the database so as not to cause conflicts
+  -Need to create a folder for each database (Google) and .csv inside, share the folder
