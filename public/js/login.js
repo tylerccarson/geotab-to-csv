@@ -6,26 +6,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var GeotabLogin = (function () {
 
-        var authenticationCallback,
-            debug = {
-                enabled: false,
-                server: "",
-                database: "",
-                email: "",
-                password: ""
-            };
+        var authenticationCallback = myGeotabAuthentication;
+        var debug = {
+            enabled: false,
+            server: "",
+            database: "",
+            email: "",
+            password: ""
+        };
 
-        function initializeGeotabApi() {
-            api = GeotabApi(function (detailsCallback) {
-                authenticationCallback = detailsCallback;
+        function myGeotabAuthentication(server, database, email, password, callback) {
+            var http = new XMLHttpRequest();
+            var url = "/auth/myGeotab";
+            var params = `server=${server}&database=${database}&email=${email}&password=${password}`;
+            http.open("POST", url, true);
 
-                document.getElementById("signin-content").style.display = "block";
-                document.getElementById("example-content").style.display = "none";
-            }, {
-                rememberMe: false,
-                jsonp: true
-            });
+            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            http.onreadystatechange = function() {
+                if(http.readyState == 4 && http.status == 200) {
+                    console.log(http.responseText)
+                    document.getElementById("signin-content").style.display = "none";
+                    document.getElementById("instructions").style.display = "block";
+
+                } else if (http.readyState === 4 && http.status === 403) {
+                    alert('Wrong credentials. Try again!');
+                }
+            }
+            http.send(params);
         }
+
+        // function initializeGeotabApi() {
+        //     api = GeotabApi(function (detailsCallback) {
+
+        //         document.getElementById("signin-content").style.display = "block";
+        //         document.getElementById("example-content").style.display = "none";
+        //     }, {
+        //         rememberMe: false,
+        //         jsonp: true
+        //     });
+        // }
 
         function signOut(reason) {
             if (reason !== undefined) {
@@ -33,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             document.getElementById("signin-content").style.display = "block";
-            document.getElementById("example-content").style.display = "none";
+            document.getElementById("instructions").style.display = "none";
         }
 
         function closeModal(id) {
@@ -178,21 +198,26 @@ document.addEventListener("DOMContentLoaded", function () {
                     email    = document.getElementById("email").value,
                     password = document.getElementById("password").value;
 
-                authenticationCallback(server, database, email, password, function (error) {
-                    alert(error);
-                    signOut();
-                });
+                //enter client validation
+                if (database === "" || email === "" || password === "") {
+                    alert("Please enter all required fields");
 
-                document.getElementById("signin-content").style.display = "none";
-                document.getElementById("instructions").style.display = "block";
+                } else {
+                    authenticationCallback(server, database, email, password, function (error) {
+                        if (error) {
+                            alert(error);
+                            signOut();
+                        }
+                    });
+                }
             });
 
             document.getElementById("signout").addEventListener("click", function (event) {
                 event.preventDefault();
 
-                if (api !== undefined) {
-                    api.forget();
-                }
+                // if (api !== undefined) {
+                //     api.forget();
+                // }
 
                 signOut();
             });
@@ -205,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return function () {
             this.initialize = function () {
-                initializeGeotabApi();
+                //initializeGeotabApi();
                 intializeInterface();
             }
         };
