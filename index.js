@@ -32,7 +32,9 @@ app.post('/feed/subscribe', (req, res) => {
   var email = req.body.email;
   console.log(email);
 
+  //should also consider a redirect to the googleDrive page.
   res.send('Folder shared! Check your inbox and add to your Google Drive.');
+  
     //if database is already registered
       //retrieve file or folder Id and share
     //else
