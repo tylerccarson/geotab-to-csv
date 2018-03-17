@@ -3,9 +3,9 @@ var app = express();
 let port = process.env.PORT || 3000;
 
 var bodyParser = require('body-parser');
+var db = require('./database/index.js');
 
 app.use(express.static('public'));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/auth/myGeotab', (req, res) => {
@@ -32,14 +32,15 @@ app.post('/feed/subscribe', (req, res) => {
   var email = req.body.email;
   console.log(email);
 
+  //if database is already registered
+    //retrieve file or folder Id and share
+  //else
+    //register
+    //share
+
   //should also consider a redirect to the googleDrive page.
   res.send('Folder shared! Check your inbox and add to your Google Drive.');
   
-    //if database is already registered
-      //retrieve file or folder Id and share
-    //else
-      //register
-      //share
       
 });
 

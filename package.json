@@ -18,6 +18,8 @@
     "isomorphic-fetch": "^2.2.1",
     "json2csv": "^3.11.5",
     "mg-api-node": "^1.0.1",
+    "mysql2": "^1.5.2",
+    "sequelize": "^4.37.1",
     "webpack": "^3.11.0"
   },
   "devDependencies": {
