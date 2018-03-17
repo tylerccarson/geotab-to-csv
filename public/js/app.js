@@ -213,6 +213,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     http.onreadystatechange = function() {
                         if(http.readyState == 4 && http.status == 200) {
+                            document.getElementById("register").innerHTML = "Request completed"
+                            document.getElementById("register").disabled = true;
                             alert(http.responseText);
                         } 
                     }
