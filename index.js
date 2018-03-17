@@ -9,11 +9,11 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/auth/myGeotab', (req, res) => {
-  
-  var geotabUserName = req.body.email;
+
+  var geotabUser = req.body.user;
   var geotabPassword = req.body.password;
   var geotabDatabase = req.body.database;
-  var myGeotab = require('mg-api-node')(geotabUserName, geotabPassword, geotabDatabase);
+  var myGeotab = require('mg-api-node')(geotabUser, geotabPassword, geotabDatabase);
 
   myGeotab.authenticate((err, user) => {
     if(err){
@@ -29,19 +29,42 @@ app.post('/auth/myGeotab', (req, res) => {
 });
 
 app.post('/feed/subscribe', (req, res) => {
+
   var email = req.body.email;
-  console.log(email);
+  var database = req.body.database;
+  var user = req.body.user;
+  var password = req.body.password;
 
   //if database is already registered
-    //retrieve file or folder Id and share
-  //else
-    //register
-    //share
+  db.Fleet.findOne({
+    where: {name: database}
 
-  //should also consider a redirect to the googleDrive page.
-  res.send('Folder shared! Check your inbox and add to your Google Drive.');
-  
+  }).then(database => {
+    //retrieve file or folder Id
+    if (database === null) {
+      console.log('database not registered yet');
+
+      //create folder in google drive
+      //create first database file
+      //register into DB
+
+    } else {
+      console.log('database already registered');
+      var folder = database.folder;
       
+    }
+
+    //share via google
+    console.log('Sharing ' + database + ' folder with ' + email);
+
+    //should also consider a redirect to the googleDrive page.
+    res.send('Folder shared! Check your inbox and add to your Google Drive.');
+
+  }).catch(err => {
+    console.log(err);
+    res.send(err);
+  });
+   
 });
 
 //possibly unnecessary

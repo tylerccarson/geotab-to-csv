@@ -36,3 +36,7 @@ seq
   .catch(err => {
     console.log('Error connecting to DB: ', err);
   });
+
+module.exports = {
+  Fleet
+};

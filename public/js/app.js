@@ -8,14 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
         var debug = {
             enabled: false,
             database: "",
-            email: "",
+            user: "",
             password: ""
         };
 
-        function myGeotabAuthentication(database, email, password, callback) {
+        function myGeotabAuthentication(database, user, password, callback) {
             var http = new XMLHttpRequest();
             var url = "/auth/myGeotab";
-            var params = `database=${database}&email=${email}&password=${password}`;
+            var params = `database=${database}&user=${user}&password=${password}`;
             http.open("POST", url, true);
 
             http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -41,9 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             document.getElementById("signin-content").style.display = "block";
             document.getElementById("dashboard").style.display = "none";
-            document.getElementById("instructions").style.display = "none";
-
-            //to-do: reset values to ""
+            document.getElementById("instructions").style.display = "none";            
         }
 
         function closeModal(id) {
@@ -124,14 +122,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Build email field
             paragraph3.appendChild(createLabel({
-                for: "email",
-                html: "Email"
+                for: "user",
+                html: "User"
             }));
             paragraph3.appendChild(createInput({
-                id: "email",
-                type: "email",
+                id: "user",
+                type: "text",
                 placeholder: "my.name@mycompany.com",
-                value: (debug.enabled === true ? debug.email : undefined)
+                value: (debug.enabled === true ? debug.user : undefined)
             }));
 
             // Build password field
@@ -170,14 +168,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.preventDefault();
 
                 var database = document.getElementById("database").value,
-                    email    = document.getElementById("email").value,
+                    user = document.getElementById("user").value,
                     password = document.getElementById("password").value;
 
-                if (database === "" || email === "" || password === "") {
+                if (database === "" || user === "" || password === "") {
                     alert("Please enter all required fields");
 
                 } else {
-                    authenticationCallback(database, email, password, function (error) {
+                    authenticationCallback(database, user, password, function (error) {
                         if (error) {
                             alert(error);
                             signOut();
@@ -199,14 +197,17 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("register").addEventListener("click", function submitEmail(event) {
                 event.preventDefault();
 
-                var email = document.getElementById("googleAccount").value;
+                var database = document.getElementById("database").value;
+                var user = document.getElementById("user").value;
+                var password = document.getElementById("password").value;
+                var email = document.getElementById("email").value;
                 var isEmail = email.indexOf('@') > -1;
 
                 if (isEmail) {
 
                     var http = new XMLHttpRequest();
                     var url = "/feed/subscribe";
-                    var params = `email=${email}`;
+                    var params = `email=${email}&database=${database}&user=${user}&password=${password}`;
                     http.open("POST", url, true);
 
                     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
