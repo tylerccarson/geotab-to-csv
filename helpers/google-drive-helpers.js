@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 } else {
 
-  var credentials = require('./credentials.js');
+  var credentials = require('../credentials.js');
 
   googleClientID = credentials.google.client_id;
   googleClientSecret = credentials.google.client_secret;
@@ -33,77 +33,86 @@ var drive = google.drive({
   auth: oauth2Client
 });
 
+var fs = require('fs');
+var path = require('path');
+
 module.exports.createDatabaseFolder = function(database, callback) {
 
-  var rootFolderId = '1qccbM8sK-m06yBYY0wU9I_MJrjYGVNLJ';
+  oauth2Client.refreshAccessToken(function(err, tokens) {
 
-  var fileMetadata = {
-    'name': `${database}`,
-    parents: [folderId],
-    'mimeType': 'application/vnd.google-apps.folder'
-  };
+    var rootFolderId = '1qccbM8sK-m06yBYY0wU9I_MJrjYGVNLJ';
 
-  drive.files.create({
-    resource: fileMetadata,
-    fields: 'id'
+    var fileMetadata = {
+      'name': `${database}`,
+      parents: [rootFolderId],
+      'mimeType': 'application/vnd.google-apps.folder'
+    };
 
-  }, (err, file) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('Database folder created: ', file.data);
-      callback(file);
-    }
+    drive.files.create({
+      resource: fileMetadata,
+      fields: 'id'
+
+    }, (err, file) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Database folder created: ', file.data);
+        callback(file.data);
+      }
+    });
   });
-  
 }
 
 module.exports.uploadDatabaseFile = function(folderId, database, callback) {
 
-  var fileMetadata = {
-    'name': `${database}.csv`,
-    parents: [folderId]
-  };
+  oauth2Client.refreshAccessToken(function(err, tokens) {
 
-  var media = {
-    mimeType: 'text/csv',
-    body: fs.createReadStream(`csv-files/${database}/${database}.csv`)
-  };
+    var fileMetadata = {
+      'name': `${database}.csv`,
+      parents: [folderId]
+    };
 
-  drive.files.create({
-    resource: fileMetadata,
-    media: media,
-    fields: 'id'
+    var media = {
+      mimeType: 'text/csv',
+      body: fs.createReadStream(path.join(__dirname, `../csv-files/${database}/${database}.csv`))
+    };
 
-  }, function (err, file) {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('File uploaded to Google Drive: ', file);
-      callback(file);
-    }
+    drive.files.create({
+      resource: fileMetadata,
+      media: media,
+      fields: 'id'
+
+    }, function (err, file) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('File uploaded to Google Drive: ', file.data);
+        callback(file.data);
+      }
+    });
   });
-
 }
 
 module.exports.updateDatabaseFile = function(fileId, database, callback) {
 
-  var media = {
-    mimeType: 'text/csv',
-    body: fs.createReadStream(`csv-files/${database}/${database}.csv`)
-  };
+  oauth2Client.refreshAccessToken(function(err, tokens) {
 
-  drive.files.update({
-    fileId: fileId,
-    media: media
+    var media = {
+      mimeType: 'text/csv',
+      body: fs.createReadStream(path.join(__dirname, `../csv-files/${database}/${database}.csv`))
+    };
 
-  }, function (err, file) {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('File uploaded to Google Drive: ', file);
-      callback(file);
-    }
+    drive.files.update({
+      fileId: fileId,
+      media: media
+
+    }, function (err, file) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('File uploaded to Google Drive: ', file.data);
+        callback(file.data);
+      }
+    });
   });
-
 }

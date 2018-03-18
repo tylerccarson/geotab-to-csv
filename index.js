@@ -4,6 +4,9 @@ let port = process.env.PORT || 3000;
 
 var bodyParser = require('body-parser');
 var db = require('./database/index.js');
+var googleDrive = require('./helpers/google-drive-helpers.js');
+var fs = require('fs');
+var writeCSV = require('./helpers/writeCSV.js');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,7 +19,7 @@ app.post('/auth/myGeotab', (req, res) => {
   var myGeotab = require('mg-api-node')(geotabUser, geotabPassword, geotabDatabase);
 
   myGeotab.authenticate((err, user) => {
-    
+
     if(err){
       console.log(err);
       res.sendStatus(403);
@@ -33,25 +36,65 @@ app.post('/feed/subscribe', (req, res) => {
   var database = req.body.database;
   var user = req.body.user;
   var password = req.body.password;
+  var folderId, fileId;
 
-  //if database is already registered
-  db.Fleet.findOne({
+  return db.Fleet.findOne({
     where: {name: database}
 
-  }).then(database => {
-    //retrieve file or folder Id
-    if (database === null) {
-      console.log('database not registered yet');
+  }).then(data => {
 
-      //create folder in google drive
-      //create first database file
-      //register into DB
+    if (data === null) {
+
+      googleDrive.createDatabaseFolder(database, (folder) => {
+
+        //not receiving folder from callback here
+        folderId = folder.id;
+
+        //create local folder
+        fs.mkdir(`./csv-files/${database}`, (err) => {
+          if (err && err.code !== 'EEXIST') {
+            throw err;
+          } 
+
+          //create first database file
+          writeCSV(user, password, database, (err) => {
+            if (err) {
+              throw err;
+            }
+
+            //upload to Google Drive
+            googleDrive.uploadDatabaseFile(folderId, database, (file) => {
+              console.log(file);
+              fileId = file.id;
+
+              //register into DB
+              return db.Fleet.create({
+                name: database,
+                user: user,
+                password: password,
+                folder: folderId,
+                file: fileId
+
+              })
+
+            });
+
+          });
+          
+        });
+        
+      });
 
     } else {
-      console.log('database already registered');
-      var folder = database.folder;
-      
+      console.log('Database already registered');
+      folderId = data.folder;
+      fileId = data.file;
+      return data;
     }
+
+  }).then(fleet => {
+
+    console.log('Fleet: ', fleet);
 
     //share via google
     console.log('Sharing ' + database + ' folder with ' + email);
