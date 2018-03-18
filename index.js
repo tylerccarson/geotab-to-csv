@@ -16,13 +16,12 @@ app.post('/auth/myGeotab', (req, res) => {
   var myGeotab = require('mg-api-node')(geotabUser, geotabPassword, geotabDatabase);
 
   myGeotab.authenticate((err, user) => {
+    
     if(err){
       console.log(err);
       res.sendStatus(403);
+
     } else {
-
-      // possibly add database and user info to DB at this point
-
       res.send('Success logging in!');
     }
   });

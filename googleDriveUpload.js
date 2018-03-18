@@ -189,21 +189,6 @@ function updateGoogleDrive() {
               }
             });
 
-            // drive.files.create({
-            //   resource: fileMetadata,
-            //   media: media,
-            //   fields: 'id'
-
-            // }, function (err, file) {
-            //   if (err) {
-            //       // Handle error
-            //       console.error(err);
-            //   } else {
-            //       console.log('File uploaded: ', file);
-            //   }
-
-            // });
-
           });//refreshAccessToken
 
         });//outside fs.writefile callback scope
