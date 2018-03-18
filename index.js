@@ -96,28 +96,20 @@ app.post('/feed/subscribe', (req, res) => {
 
     console.log('Fleet: ', fleet);
 
-    //share via google
-    console.log('Sharing ' + database + ' folder with ' + email);
+    googleDrive.shareFolder(folderId, email, (err, perm) => {
+      if (err) {
+        throw err;
+      }
 
-    //should also consider a redirect to the googleDrive page.
-    res.send('Folder shared! Check your inbox and add to your Google Drive.');
+      res.send('Folder shared! Check your inbox and add to your Google Drive.');
+
+    });
 
   }).catch(err => {
     console.log(err);
     res.send(err);
   });
    
-});
-
-//possibly unnecessary
-app.get('/feed/status', (req, res) => {
-  //check if current user's database is registered
-    //return status to the user (won't display unsubscribe if there aren't registered)
-});
-
-//is this route uncessary? Can just delete the folder from their own Google Drive if they really don't want it
-app.post('/feed/unsubscribe', (req, res) => {
-  //remove user database from registry queue
 });
 
 app.listen(port, () => {

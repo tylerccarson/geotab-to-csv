@@ -116,3 +116,30 @@ module.exports.updateDatabaseFile = function(fileId, database, callback) {
     });
   });
 }
+
+module.exports.shareFolder = function(folderId, email, callback) {
+
+  oauth2Client.refreshAccessToken(function(err, tokens) {
+
+    var body = {
+      'type': 'user',
+      'role': 'reader',
+      'emailAddress': email
+    };
+
+    drive.permissions.create({
+      resource: body, 
+      fileId: folderId,
+      fields: 'id'
+
+    }, function(err, perm) {
+      if (err) { 
+        callback(err, null);
+        console.error(err);
+      } else {
+        console.log('File shared with: ', perm.data)
+        callback(null, perm.data);
+      }
+    });
+  });
+}
