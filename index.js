@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var db = require('./database/index.js');
 var googleDrive = require('./helpers/google-drive-helpers.js');
 var fs = require('fs');
+var path = require('path');
 var writeCSV = require('./helpers/writeCSV.js');
 
 app.use(express.static('public'));
@@ -51,7 +52,7 @@ app.post('/feed/subscribe', (req, res) => {
         folderId = folder.id;
 
         //create local folder
-        fs.mkdir(__dirname + `/csv-files/${database}`, (err) => {
+        fs.mkdir(path.join(__dirname, `./csv-files/${database}`), (err) => {
           if (err && err.code !== 'EEXIST') {
             throw err;
           } 

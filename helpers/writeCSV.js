@@ -4,7 +4,6 @@ var path = require('path');
 
 module.exports = function writeCSV(user, password, database, callback) {
 
-  console.log(user, password, database);
   console.log('Running write .csv function for ', database);
 
   var myGeotab = require('mg-api-node')(user, password, database);
