@@ -70,6 +70,16 @@ app.post('/feed/subscribe', (req, res) => {
               folder: folderId,
               file: fileId
 
+            }).then(fleet => { // this is currently redundant code, see comments below.
+
+                googleDrive.shareFolder(folderId, email, (err, perm) => {
+                  if (err) {
+                    throw err;
+                  }
+
+                  res.send('Folder shared! Check your inbox and add to your Google Drive.');
+
+                });
             })
           });
         });          
