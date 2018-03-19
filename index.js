@@ -51,7 +51,7 @@ app.post('/feed/subscribe', (req, res) => {
         folderId = folder.id;
 
         //create local folder
-        fs.mkdir(`./csv-files/${database}`, (err) => {
+        fs.mkdir(__dirname + `/csv-files/${database}`, (err) => {
           if (err && err.code !== 'EEXIST') {
             throw err;
           } 
