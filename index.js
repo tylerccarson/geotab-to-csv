@@ -51,36 +51,29 @@ app.post('/feed/subscribe', (req, res) => {
         //not receiving folder from callback here
         folderId = folder.id;
 
-        //create local folder
-        fs.mkdir(path.join(__dirname, `./csv-files/${database}`), (err) => {
-          if (err && err.code !== 'EEXIST') {
+        //create first database file
+        writeCSV(user, password, database, (err) => {
+          if (err) {
             throw err;
-          } 
+          }
 
-          //create first database file
-          writeCSV(user, password, database, (err) => {
-            if (err) {
-              throw err;
-            }
+          //upload to Google Drive
+          googleDrive.uploadDatabaseFile(folderId, database, (file) => {
+            console.log(file);
+            fileId = file.id;
 
-            //upload to Google Drive
-            googleDrive.uploadDatabaseFile(folderId, database, (file) => {
-              console.log(file);
-              fileId = file.id;
+            //register into DB
+            return db.Fleet.create({
+              name: database,
+              user: user,
+              password: password,
+              folder: folderId,
+              file: fileId
 
-              //register into DB
-              return db.Fleet.create({
-                name: database,
-                user: user,
-                password: password,
-                folder: folderId,
-                file: fileId
-
-              })
-            });
-          });          
-        });       
-      });
+            })
+          });
+        });          
+      });       
 
     } else {
       console.log('Database already registered');

@@ -89,12 +89,11 @@ module.exports = function writeCSV(user, password, database, callback) {
         const csv = json2csv({data: devices});
 
         // write to csv
-        fs.writeFile(path.join(__dirname, `../csv-files/${database}/${database}.csv`), csv, (err) => {
+        fs.writeFile(path.join(__dirname, `../csv-files/${database}.csv`), csv, (err) => {
           if (err) {
             console.log(err); 
             callback(err);
           }
-
           console.log('.csv file created for ', database);
           callback();
 

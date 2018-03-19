@@ -99,7 +99,7 @@ module.exports.uploadDatabaseFile = function(folderId, database, callback) {
 
     var media = {
       mimeType: 'text/csv',
-      body: fs.createReadStream(path.join(__dirname, `../csv-files/${database}/${database}.csv`))
+      body: fs.createReadStream(path.join(__dirname, `../csv-files/${database}.csv`))
     };
 
     drive.files.create({
@@ -124,7 +124,7 @@ module.exports.updateDatabaseFile = function(fileId, database, callback) {
 
     var media = {
       mimeType: 'text/csv',
-      body: fs.createReadStream(path.join(__dirname, `../csv-files/${database}/${database}.csv`))
+      body: fs.createReadStream(path.join(__dirname, `../csv-files/${database}.csv`))
     };
 
     drive.files.update({
