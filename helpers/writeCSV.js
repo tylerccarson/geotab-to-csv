@@ -4,7 +4,8 @@ var path = require('path');
 
 module.exports = function writeCSV(user, password, database, callback) {
 
-  console.log('Running write .csv function');
+  console.log(user, password, database);
+  console.log('Running write .csv function for ', database);
 
   var myGeotab = require('mg-api-node')(user, password, database);
 
@@ -23,6 +24,11 @@ module.exports = function writeCSV(user, password, database, callback) {
 
       if(err){
         console.log('Error', err);
+        return;
+      }
+
+      if (devices.length === 0) {
+        console.log('Empty database');
         return;
       }
       
@@ -87,10 +93,10 @@ module.exports = function writeCSV(user, password, database, callback) {
         fs.writeFile(path.join(__dirname, `../csv-files/${database}/${database}.csv`), csv, (err) => {
           if (err) {
             console.log(err); 
-            return;
+            callback(err);
           }
 
-          console.log('.csv file created');
+          console.log('.csv file created for ', database);
           callback();
 
         });//outside fs.writefile callback scope

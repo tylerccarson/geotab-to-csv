@@ -1,3 +1,28 @@
+/**** for use when generating a new code: *********************************************************/
+
+// var scopes = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'];
+// var url = oauth2Client.generateAuthUrl({
+//   access_type: 'offline',
+//   scope: scopes
+// });
+// console.log('URL HERE -----------> ', url);
+
+/**************************************************************************************************/
+
+/* for use when generating a new refresh token from code(only works if it is a first authorization) */
+
+// var code = '4/AAAVt7iLZ7xNNW7gPgN80vqLrfChvX8HC0ygCrWMlLM9BZxCE7-TTgJpS1HDmRdDVGuXwhXtzIRwAgyixcfacjg#';
+// oauth2Client.getToken(code, function (err, tokens) {
+//   // Now tokens contains an access_token and an optional refresh_token. Save them.
+//   if (err) {
+//     console.log(err);
+//     return;
+//   }
+//   console.log('tokens: ', tokens);
+// });
+
+/***************************************************************************************************/
+
 var googleClientID, googleClientSecret, redirect_uri, geotabUserName, geotabPassword, geotabDatabase, refresh_token;
 
 if (process.env.NODE_ENV === 'production') {
@@ -108,10 +133,10 @@ module.exports.updateDatabaseFile = function(fileId, database, callback) {
 
     }, function (err, file) {
       if (err) {
-        console.error(err);
+        console.error(err, null);
       } else {
         console.log('File uploaded to Google Drive: ', file.data);
-        callback(file.data);
+        callback(null, file.data);
       }
     });
   });

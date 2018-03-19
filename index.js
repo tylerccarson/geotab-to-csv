@@ -33,7 +33,7 @@ app.post('/auth/myGeotab', (req, res) => {
 app.post('/feed/subscribe', (req, res) => {
 
   var email = req.body.email;
-  var database = req.body.database;
+  var database = req.body.database.toLowerCase();
   var user = req.body.user;
   var password = req.body.password;
   var folderId, fileId;
@@ -76,13 +76,9 @@ app.post('/feed/subscribe', (req, res) => {
                 file: fileId
 
               })
-
             });
-
-          });
-          
-        });
-        
+          });          
+        });       
       });
 
     } else {

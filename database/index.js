@@ -25,7 +25,7 @@ const Fleet = seq.define('fleet', {
 });
 
 Fleet.sync({force: false}).then(() => {
-  console.log('Created Fleets table');
+  console.log('Synced to Fleets table');
 });
 
 seq
