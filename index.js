@@ -90,7 +90,8 @@ app.post('/feed/subscribe', (req, res) => {
 
   }).then(fleet => {
 
-    console.log('Fleet: ', fleet);
+    //this is a bug, won't evaluate when it's the first time first for a DB and thus doesn't get shared on first click. So, it responds with a 503 timeout unfortunately. Need to fix the bug to evaluate in the right order.
+    console.log('Fleet: ', fleet.dataValues);
 
     googleDrive.shareFolder(folderId, email, (err, perm) => {
       if (err) {

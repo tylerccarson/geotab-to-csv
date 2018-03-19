@@ -5,3 +5,4 @@ To-dos:
   -make sure to filter out inactive devices -- for example: TRUCK-SY (32000 miles), Durango, Paul's Test Unit
   -refactor to decouple the functions
   -improve error handling (retry on fail)
+  -promises bug on first-time request for any DB
