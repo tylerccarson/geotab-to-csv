@@ -6,3 +6,4 @@ To-dos:
   -refactor to decouple the functions
   -improve error handling (retry on fail)
   -promises bug on first-time request for any DB
+  -make sure creation of new folders in csv-files happens with new sign ups
