@@ -6,3 +6,5 @@ To-dos:
   -improve error handling
   -promises bug on first-time request for any DB
   -testing, CI
+  -move backend to AWS for better metrics and more options
+  -moving client to an Electron desktop app could also cut out the Google Drive middle man
