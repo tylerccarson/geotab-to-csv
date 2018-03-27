@@ -2,7 +2,15 @@ const Sequelize = require('sequelize');
 let seq;
 
 if (process.env.NODE_ENV === 'production') {
-  seq = new Sequelize(process.env.CLEARDB_DATABASE_URL);
+
+  seq = new Sequelize({
+    dialect: 'mysql',
+    username: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD,
+    host: process.env.RDS_HOSTNAME,
+    port: process.env.RDS_PORT,
+    logging: false
+  });
 
 } else {
   let credentials = require('../credentials.js');
