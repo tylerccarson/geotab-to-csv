@@ -1,4 +1,5 @@
 To-dos:
+
   -make sure to filter out inactive devices -- for example: TRUCK-SY (32000 miles), Durango, Paul's Test Unit
   -improve error handling
   -promises bug on first-time request for any DB
