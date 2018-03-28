@@ -9,6 +9,11 @@ var fs = require('fs');
 var path = require('path');
 var writeCSV = require('./helpers/writeCSV.js');
 
+var CronJob = require('cron').CronJob;
+new CronJob('0,10,20,30,40,50 * * * *', function() {
+  console.log('You will see this message every 10 minutes');
+}, null, true, 'America/Los_Angeles');
+
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 

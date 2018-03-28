@@ -5,7 +5,8 @@
   "main": "writeCSV.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "log": "tail -f /var/log/nodejs/nodejs.log"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "aws-sdk": "^2.213.1",
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
+    "cron": "^1.3.0",
     "dropbox": "^3.0.5",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
