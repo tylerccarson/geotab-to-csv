@@ -3,40 +3,40 @@ var googleDrive = require('./helpers/google-drive-helpers.js');
 var writeCSV = require('./helpers/writeCSV.js');
 var async = require('async');
 
-/** EXECUTABLE CODE  *******/
+module.exports = function updateDatabases() {
 
-db.Fleet.findAll().then(fleets => {
+  db.Fleet.findAll().then(fleets => {
 
-  var tasks = [];
+    var tasks = [];
 
-  fleets.forEach(fleet => {
+    fleets.forEach(fleet => {
 
-    let data = fleet.dataValues;
+      let data = fleet.dataValues;
 
-    tasks.push(function(callback) {
+      tasks.push(function(callback) {
 
-      updateGoogleDrive(data.user, data.password, data.name, data.file, (err, updated) => {
-        if (err) throw err;
-        callback();
+        updateGoogleDrive(data.user, data.password, data.name, data.file, (err, updated) => {
+          if (err) throw err;
+          callback();
 
+        });
       });
     });
-  });
 
-  async.series(tasks, (err) => {
-    if (err) {
-      throw err;
-    }
+    async.series(tasks, (err) => {
+      if (err) {
+        throw err;
+      }
 
-    process.exit()
+      process.exit()
 
+    });
+    
+  }).catch(err => {
+    console.log(err);
   });
   
-}).catch(err => {
-  console.log(err);
-});
-
-/***************************/
+}
 
 function updateGoogleDrive(user, password, database, fileId, callback) {
 
