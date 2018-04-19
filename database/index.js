@@ -3,14 +3,6 @@ let seq;
 
 if (process.env.NODE_ENV === 'production') {
 
-  console.log('----------------------------')
-  console.log(process.env.RDS_HOSTNAME);
-  console.log(process.env.RDS_PORT);
-  console.log(process.env.RDS_USERNAME);
-  console.log(process.env.RDS_PASSWORD);
-  console.log(process.env.RDS_DB_NAME);
-  console.log('----------------------------');
-
   seq = new Sequelize({
     host: process.env.RDS_HOSTNAME,
     port: process.env.RDS_PORT,
