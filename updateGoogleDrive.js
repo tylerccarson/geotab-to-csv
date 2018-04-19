@@ -28,6 +28,7 @@ module.exports = function updateDatabases() {
         throw err;
       }
 
+      //this may be forcing the web server to restart...
       process.exit()
 
     });
