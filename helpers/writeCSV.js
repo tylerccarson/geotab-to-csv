@@ -80,6 +80,7 @@ module.exports = function writeCSV(user, password, database, callback) {
             AssetNo: device.engineVehicleIdentificationNumber,
             DateRead: localDate,
             MeterTitleNo: device.id,
+            MeterTitleName: 'Odometer',
             ValueRead: vehicleMilage
           }
 
