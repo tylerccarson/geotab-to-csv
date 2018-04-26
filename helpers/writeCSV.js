@@ -78,6 +78,7 @@ module.exports = function writeCSV(user, password, database, callback) {
           return {
             AssetName: device.name,
             AssetNo: device.engineVehicleIdentificationNumber,
+            // append UTC to end
             DateRead: localDate,
             MeterTitleNo: device.id,
             MeterTitleName: 'Odometer',
