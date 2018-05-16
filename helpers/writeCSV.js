@@ -32,8 +32,8 @@ module.exports = function writeCSV(user, password, database, callback) {
       }
       
       //getDeviceOdms
-      var fromDate = new Date();
-      var calls = [];
+      let fromDate = new Date();
+      let calls = [];
 
       //iterate devices and assemble a multicall to retrieve odometer values
       for (var i = 0; i < devices.length; i++) {
@@ -72,14 +72,19 @@ module.exports = function writeCSV(user, password, database, callback) {
         devices = devices.map((device, i) => {
 
           let vehicleMilage = odmTable[device.id];
-          let localDate = fromDate.toLocaleString();
+          fromDate = fromDate.toLocaleString();
+
+          let VIN = device.vehicleIdentificationNumber;
+          if (VIN === '' || VIN === '?' || VIN[0] === '@') {
+            VIN = device.engineVehicleIdentificationNumber;
+          }
 
           // OBJECT VERSION FOR .CSV
           return {
             AssetName: device.name,
-            AssetNo: device.vehicleIdentificationNumber,
+            AssetNo: VIN,
             // append UTC to end
-            DateRead: localDate,
+            DateRead: fromDate,
             MeterTitleNo: device.id,
             MeterTitleName: 'Odometer',
             ValueRead: vehicleMilage
