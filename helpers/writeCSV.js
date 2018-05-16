@@ -72,7 +72,7 @@ module.exports = function writeCSV(user, password, database, callback) {
         devices = devices.map((device, i) => {
 
           let vehicleMilage = odmTable[device.id];
-          fromDate = fromDate.toLocaleDateString();
+          fromDate = fromDate;
 
           let VIN = device.vehicleIdentificationNumber;
           // if (VIN === '' || VIN === '?' || VIN[0] === '@') {
