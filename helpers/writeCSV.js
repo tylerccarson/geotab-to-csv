@@ -75,9 +75,9 @@ module.exports = function writeCSV(user, password, database, callback) {
           fromDate = fromDate.toLocaleString();
 
           let VIN = device.vehicleIdentificationNumber;
-          if (VIN === '' || VIN === '?' || VIN[0] === '@') {
-            VIN = device.engineVehicleIdentificationNumber;
-          }
+          // if (VIN === '' || VIN === '?' || VIN[0] === '@') {
+          //   VIN = device.engineVehicleIdentificationNumber;
+          // }
 
           // OBJECT VERSION FOR .CSV
           return {
