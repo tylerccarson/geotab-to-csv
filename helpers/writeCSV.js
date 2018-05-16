@@ -72,7 +72,7 @@ module.exports = function writeCSV(user, password, database, callback) {
         devices = devices.map((device, i) => {
 
           let vehicleMilage = odmTable[device.id];
-          fromDate = fromDate.toLocaleString();
+          fromDate = fromDate.toLocaleDateString();
 
           let VIN = device.vehicleIdentificationNumber;
           // if (VIN === '' || VIN === '?' || VIN[0] === '@') {
@@ -81,10 +81,10 @@ module.exports = function writeCSV(user, password, database, callback) {
 
           // OBJECT VERSION FOR .CSV
           return {
-            AssetName: device.name,
-            AssetNo: VIN,
-            // append UTC to end
-            DateRead: fromDate,
+            AssetNo: device.name,
+            AssetName: device.comment,
+            CF_VIN: VIN,
+            DateOnly: fromDate,
             MeterTitleNo: device.id,
             MeterTitleName: 'Odometer',
             ValueRead: vehicleMilage
