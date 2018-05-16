@@ -69,7 +69,7 @@ module.exports = function writeCSV(user, password, database, callback) {
         }
 
         //populateOdmAndParseFields
-        devices = devices.map((device) => {
+        devices = devices.map((device, i) => {
 
           let vehicleMilage = odmTable[device.id];
           let localDate = fromDate.toLocaleString();
@@ -77,7 +77,7 @@ module.exports = function writeCSV(user, password, database, callback) {
           // OBJECT VERSION FOR .CSV
           return {
             AssetName: device.name,
-            AssetNo: device.engineVehicleIdentificationNumber,
+            AssetNo: device.vehicleIdentificationNumber,
             // append UTC to end
             DateRead: localDate,
             MeterTitleNo: device.id,
