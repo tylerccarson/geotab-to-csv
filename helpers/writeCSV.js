@@ -35,7 +35,7 @@ module.exports = function writeCSV(user, password, database, callback) {
       let fromDate = new Date();
       let calls = [];
 
-      //iterate devices and assemble a multicall to retrieve odometer values
+      //GET OD
       for (var i = 0; i < devices.length; i++) {
         calls.push(['Get', {
           typeName: 'StatusData',
@@ -51,6 +51,22 @@ module.exports = function writeCSV(user, password, database, callback) {
         }]);      
       }
 
+      //ENGINE HOURS
+      for (var i = 0; i < devices.length; i++) {
+        calls.push(['Get', {
+          typeName: 'StatusData',
+          search: {
+            deviceSearch: {
+              id: devices[i].id
+            },
+            diagnosticSearch: {
+              id: 'DiagnosticEngineHoursAdjustmentId'
+            },
+            fromDate: fromDate
+          }
+        }]);      
+      }
+
       myGeotab.multicall(calls, (err, statusData) => {
         if(err){
           console.log('Error', err);
@@ -59,12 +75,21 @@ module.exports = function writeCSV(user, password, database, callback) {
 
         //build a hashtable with a id => milage key value pair
         var odmTable = {};
+        var engineHoursTable = {};
 
         for (var i = 0; i < statusData.length; i++) {
 
-          let deviceId = statusData[i][0].device.id;
-          let miles = getMiles(statusData[i][0].data);
-          odmTable[deviceId] = miles;
+          let status = statusData[i][0];
+          let deviceId = status.device.id;
+
+          if (status.diagnostic.id === 'DiagnosticEngineHoursAdjustmentId') {
+            let engineHours = status.data;
+            engineHoursTable[engineHours] = engineHours;
+
+          } else if (status.diagnostic.id === 'DiagnosticOdometerAdjustmentId') {
+            let miles = getMiles(status.data);
+            odmTable[deviceId] = miles;
+          }
 
         }
 
@@ -72,13 +97,14 @@ module.exports = function writeCSV(user, password, database, callback) {
         devices = devices.map((device, i) => {
 
           let vehicleMilage = odmTable[device.id];
-          let date = new Date()
+          let engineHours = engineHoursTable[device.id];
+          let date = new Date();
           date = date.toLocaleDateString();
-
           let VIN = device.vehicleIdentificationNumber;
-          // if (VIN === '' || VIN === '?' || VIN[0] === '@') {
-          //   VIN = device.engineVehicleIdentificationNumber;
-          // }
+
+          let isSpecialQspaceValue = database === 'qspace' && (device.id === 'b5' || device.id === 'b7');
+          let valueRead = isSpecialQspaceValue ? engineHours : vehicleMilage;
+          let source = isSpecialQspaceValue ? 'Engine Hours' : 'Odometer';
 
           // OBJECT VERSION FOR .CSV
           return {
@@ -86,9 +112,10 @@ module.exports = function writeCSV(user, password, database, callback) {
             AssetName: device.comment,
             CF_VIN: VIN,
             DateOnly: date,
-            MeterTitleNo: device.id,
             MeterTitleName: 'Odometer',
-            ValueRead: vehicleMilage
+            MeterTitleNo: '',
+            ValueRead: valueRead,
+            Source: source
           }
 
         });

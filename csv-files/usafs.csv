@@ -1,25 +1,32 @@
-"AssetName","AssetNo","DateRead","MeterTitleNo","ValueRead"
-"1234-Outback","4S4BSANC8G3267435","2018-3-18 22:44:38","b15",9607.230628367903
-"EY JEEP","1J4GW58N01C724128","2018-3-18 22:44:38","b13",146230.3956830319
-"GPS-DURANGO","@@@@@@@@@@@@@@@@@","2018-3-18 22:44:38","b8",181732.04607132735
-"GPSPRO NISSAN","1N6AD0CW5CC468606","2018-3-18 22:44:38","b1B",39313.07472946219
-"GPSPRO Reno Sales","3GNCA63X89S503892","2018-3-18 22:44:38","b1F",2447.9305284741977
-"GPSPRO-Dominic","1D4PU4GK1BW546472","2018-3-18 22:44:38","b4",90361.98348175107
-"GPSPRO-HHR Vegas","3GNBABDB1AS501655","2018-3-18 22:44:38","b6",69372.17708417683
-"GPSPRO-National Sales 1","1FMJU2A52EEF63135","2018-3-18 22:44:38","b1D",36108.44852176068
-"GPSPRO-Reno Service","1D4PU4GKXBW554389","2018-3-18 22:44:38","b3",137691.57924928545
-"GPSPRO2- HHR","3GCDA15D97S626116","2018-3-18 22:44:38","bC",147588.29001346728
-"HHR- SO CAL","3GNBAADB6AS507218","2018-3-18 22:44:38","b16",88789.08551342977
-"KS JEEP","1C4PJMABXHW656878","2018-3-18 22:44:38","b29",4785.3038238304
-"Lakeside","1C4PJMCB8JD515306","2018-3-18 22:44:38","b2D",7013.9137410576
-"Northwest","1C4PJMCB0JD535680","2018-3-18 22:44:38","b2B",8953.1510941704
-"Paul's Jeep","@@@@@@@@@@@@@@@@@","2018-3-18 22:44:38","b23",158171.2524149646
-"Paul's Test Unit","1FBAX2CGXGKB12084","2018-3-18 22:44:38","b17",148905.90073251506
-"SCC SHOP TRUCK F250","@@@@@@@@@@@@@@@@@","2018-3-18 22:44:38","b2E",503.63663994767256
-"SY GO RUGGED","@@@@@@@@@@@@@@@@@","2018-3-18 22:44:38","b2A",2404.4272447094977
-"T-350 Service Van","1FBAX2CGXGKB12084","2018-3-18 22:44:38","bE",38971.03041739045
-"TEST FROM ALAN","?","2018-3-18 22:44:38","b28",0
-"TRUCK-SY","1FTEW1EG6FKD43781","2018-3-18 22:44:38","b1",32643.103015846544
-"Trailer Test","@@@@@@@@@@@@@@@@@","2018-3-18 22:44:38","b26",119.62291076305112
-"Truck SY","1FTEW1EG6FKD43781","2018-3-18 22:44:38","b19",40994.76120382021
-"Village","1C4PJMCB5JD616237","2018-3-18 22:44:38","b2C",3711.5744040544
+"AssetNo","AssetName","CF_VIN","DateOnly","MeterTitleName","MeterTitleNo","ValueRead","Source"
+"1234-Outback","2016 SUBARU OUTBACK 2.5I LIMITED\nOBDII","4S4BSANC8G3267435","6/3/2018","Odometer","",12031.839854355054,"Odomter"
+"Asset Guard USAFS","ESN: 3163047735\t\nIMEI: 352648069231181\n","","6/3/2018","Odometer","",15.879681572127696,"Odomter"
+"EY JEEP","","1J4GW58N01C724128","6/3/2018","Odometer","",,"Odomter"
+"G7A820E9FA9B","","","6/3/2018","Odometer","",0,"Odomter"
+"G82720E93ED0 - T/S from Hunt & Sons","","","6/3/2018","Odometer","",0,"Odomter"
+"G82F20ED8E6C","","","6/3/2018","Odometer","",0,"Odomter"
+"G86620ED903B","","","6/3/2018","Odometer","",0,"Odomter"
+"G88D20ED97D9","","","6/3/2018","Odometer","",0,"Odomter"
+"GPS-DURANGO","testing resetting engine hours and odometer on light duty\nset to 180000mi 500hrs on 07/24/17","","6/3/2018","Odometer","",181732.04607132735,"Odomter"
+"GPSPRO NISSAN","","1N6AD0CW5CC468606","6/3/2018","Odometer","",43290.986093524465,"Odomter"
+"GPSPRO Reno Sales","G7B820DFCCB7\n","1FDNF21559EB26103","6/3/2018","Odometer","",3352.8006087043427,"Odomter"
+"GPSPRO-HHR Vegas","","3GNBABDB1AS501655","6/3/2018","Odometer","",,"Odomter"
+"GPSPRO-National Sales 1","","1FMJU2A52EEF63135","6/3/2018","Odometer","",,"Odomter"
+"GPSPRO-Out of Service","","1D4PU4GK1BW546472","6/3/2018","Odometer","",,"Odomter"
+"GPSPRO-Reno Sales","","3GNCA63X89S503892","6/3/2018","Odometer","",217.6234544730496,"Odomter"
+"GPSPRO-Reno Service"," Nitro","1D4PU4GKXBW554389","6/3/2018","Odometer","",,"Odomter"
+"GPSPRO2- HHR","","3GCDA15D97S626116","6/3/2018","Odometer","",148623.4695281966,"Odomter"
+"HHR- SO CAL","2010 CHEVY HHR\nOBDII","3GNBAADB6AS507218","6/3/2018","Odometer","",,"Odomter"
+"KS JEEP","","1C4PJMABXHW656878","6/3/2018","Odometer","",,"Odomter"
+"Lakeside","","1C4PJMCB8JD515306","6/3/2018","Odometer","",,"Odomter"
+"Northwest","","1C4PJMCB0JD535680","6/3/2018","Odometer","",,"Odomter"
+"Paul's Jeep","","","6/3/2018","Odometer","",158266.74638816234,"Odomter"
+"Paul's Test Unit","1J4FJ68S3WL243447-Jeep\n3GNCA63X89S503892-HHR-odo updated at 9:04 08/22\n","1FBAX2CGXGKB12084","6/3/2018","Odometer","",,"Odomter"
+"SCC SHOP TRUCK F250","","","6/3/2018","Odometer","",1219.8898602202187,"Odomter"
+"SY GO RUGGED","","","6/3/2018","Odometer","",6049.052541596305,"Odomter"
+"T-350 Service Van","G7B820DFCCB7","1FBAX2CGXGKB12084","6/3/2018","Odometer","",,"Odomter"
+"TEST FROM ALAN","","","6/3/2018","Odometer","",0,"Odomter"
+"TRUCK-SY","","1FTEW1EG6FKD43781","6/3/2018","Odometer","",,"Odomter"
+"Trailer Test","GO8 hooked up to a breakaway battery to test battery life and feasibility","","6/3/2018","Odometer","",119.62291076305112,"Odomter"
+"Truck SY","","1FTEW1EG6FKD43781","6/3/2018","Odometer","",,"Odomter"
+"Village","","1C4PJMCB5JD616237","6/3/2018","Odometer","",,"Odomter"
