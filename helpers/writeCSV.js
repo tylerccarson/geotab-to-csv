@@ -82,20 +82,19 @@ module.exports = function writeCSV(user, password, database, callback) {
           let status = statusData[i][0];
           let deviceId = status.device.id;
 
-          if (status.diagnostic.id === 'DiagnosticEngineHoursAdjustmentId') {
+          if (status.diagnostic.id === 'DiagnosticEngineHoursAdjustmentId' || status.diagnostic.id === 'DiagnosticEngineHoursId') {
             let engineHours = status.data;
-            engineHoursTable[engineHours] = engineHours;
+            engineHoursTable[deviceId] = engineHours;
 
-          } else if (status.diagnostic.id === 'DiagnosticOdometerAdjustmentId') {
+          } else if (status.diagnostic.id === 'DiagnosticOdometerAdjustmentId' || status.diagnostic.id === 'DiagnosticOdometerId') {
             let miles = getMiles(status.data);
             odmTable[deviceId] = miles;
           }
-
         }
 
         //populateOdmAndParseFields
         devices = devices.map((device, i) => {
-
+          //console.log(i, device);
           let vehicleMilage = odmTable[device.id];
           let engineHours = engineHoursTable[device.id];
           let date = new Date();
@@ -113,7 +112,7 @@ module.exports = function writeCSV(user, password, database, callback) {
             CF_VIN: VIN,
             DateOnly: date,
             MeterTitleName: 'Odometer',
-            MeterTitleNo: '',
+            MeterTitleNo: device.id,
             ValueRead: valueRead,
             Source: source
           }
