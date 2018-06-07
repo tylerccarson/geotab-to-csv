@@ -111,8 +111,8 @@ module.exports = function writeCSV(user, password, database, callback) {
             AssetName: device.comment,
             CF_VIN: VIN,
             DateOnly: date,
+            MeterTitleNo: '',
             MeterTitleName: 'Odometer',
-            MeterTitleNo: device.id,
             ValueRead: valueRead,
             Source: source
           }
