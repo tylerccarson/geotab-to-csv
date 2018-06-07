@@ -83,7 +83,7 @@ module.exports = function writeCSV(user, password, database, callback) {
           let deviceId = status.device.id;
 
           if (status.diagnostic.id === 'DiagnosticEngineHoursAdjustmentId' || status.diagnostic.id === 'DiagnosticEngineHoursId') {
-            let engineHours = status.data;
+            let engineHours = getHours(status.data);
             engineHoursTable[deviceId] = engineHours;
 
           } else if (status.diagnostic.id === 'DiagnosticOdometerAdjustmentId' || status.diagnostic.id === 'DiagnosticOdometerId') {
@@ -143,4 +143,8 @@ module.exports = function writeCSV(user, password, database, callback) {
 
 function getMiles(meters) {
   return meters * 0.000621371192;
+}
+
+function getHours(seconds) {
+  return seconds / 3600;
 }
