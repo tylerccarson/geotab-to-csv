@@ -1,15 +1,7 @@
-To-dos:
-
-  -make sure to filter out inactive devices -- for example: TRUCK-SY (32000 miles), Durango, Paul's Test Unit
-  -improve error handling
-  -promises bug on first-time request for any DB
-  -testing, CI
-  -moving client to an Electron desktop app could also cut out the Google Drive middle man
-  -bug that restarts the web server every time the cron job runs
-
-Add a column MeterTitleName with placeholder of Odometer
-  -check to subsitute in the name of where reading came from instead of just odometer
-
-Possible to turn into Electron App? Need it to restart or set error message when it doesn't work over a specified period of time
-Set static folder location
-Only works while open
+1) Download Node https://nodejs.org/en/download/
+2) Download the project folder from Github: https://github.com/tylerccarson/geotab-to-csv
+  - either git repo or just the .zip should be just fine
+3) Open up your terminal and navigate to the root of the project
+4) Run `npm install` to get all dependencies
+5) Add your credentials do the `credentials_example.js` file and then rename to `credentials.js` so the script can find it
+6) Run `npm start`. The script runs every ten minutes and writes into the `csv-files/` folder with your database as the name
