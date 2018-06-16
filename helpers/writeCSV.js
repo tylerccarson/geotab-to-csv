@@ -142,9 +142,9 @@ module.exports = function writeCSV(user, password, database, callback) {
 }
 
 function getMiles(meters) {
-  return meters * 0.000621371192;
+  return parseInt(meters * 0.000621371192);
 }
 
 function getHours(seconds) {
-  return seconds / 3600;
+  return parseInt(seconds / 3600);
 }

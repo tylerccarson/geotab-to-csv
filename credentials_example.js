@@ -1,5 +1,5 @@
 module.exports = {
-  username: 'MY_GEOTAB_USERNAME_HERE',
+  userName: 'MY_GEOTAB_USERNAME_HERE',
   password: 'MY_GEOTAB_PASSWORD_HERE',
   database: 'MY_GEOTAB_DATABASE_HERE'
 };
