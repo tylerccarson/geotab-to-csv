@@ -120,7 +120,8 @@ module.exports = function writeCSV(user, password, database, callback) {
         });
 
         //parse JSON into a csv file with json2csv
-        const csv = json2csv({data: devices});
+        var csv = json2csv({data: devices});
+        csv = csv.replace('/"/g', '');
 
         // write to csv
         fs.writeFile(path.join(__dirname, `../csv-files/${database}.csv`), csv, (err) => {
